@@ -1,5 +1,5 @@
-//Import GraphQL
-const { gql } = require("graphql");
+//Import GraphQL Apollo
+const { gql } = require("apollo-server-express");
 
 //Setup required type definitions.
 //TODO: BookInput may be wrong. Check it out if issues arise.
