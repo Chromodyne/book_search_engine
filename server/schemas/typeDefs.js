@@ -2,17 +2,18 @@
 const { gql } = require("apollo-server-express");
 
 //Setup required type definitions.
-//TODO: BookInput may be wrong. Check it out if issues arise.
+//TODO: Debugging seems to indicate that this line is crashing.
 const typeDefs = gql`
+
     type Query {
         me: User
     }
 
     type Mutation {
-        login:(email: String!, password: String! ): Auth
-        addUser:(username: String!, email: String!, password: String!): Auth
-        saveBook: (bookInfo: BookInput!): User
-        removeBook: (bookId: ID!): User
+        login(email: String!, password: String!): Auth
+        addUser(username: String!, email: String!, password: String!): Auth
+        saveBook(bookInfo: BookInput!): User
+        removeBook(bookId: ID!): User
     }
 
     type User {
@@ -24,7 +25,7 @@ const typeDefs = gql`
     }
 
     type Book {
-        bookId:
+        bookId: ID!
         authors: [String]
         description: String
         image: String
@@ -38,6 +39,7 @@ const typeDefs = gql`
         bookId: String!
         image: String
         link: String
+        title: String!
     }
 
     type Auth {

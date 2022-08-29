@@ -31,8 +31,14 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 //This will be removed once we swap over to apollo/graphql.
-app.use(routes);
+//app.use(routes);
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/'));
+})
 
+
+//Logic for starting the apollo server.
+//TODO: Look into the applyMiddleware method. Need to understand how it works for apollo.
 const startApollo = async (typeDefs, resolvers) => {
   await server.start();
   server.applyMiddleware({ app });

@@ -14,36 +14,36 @@ const resolvers = {
     },
 
     //TODO: Setup proper args and context for the ones that need it.
-    Mutation: {
-        login: async (parent, { email, password }, context) => {
+    // Mutation: {
+    //     login: async (parent, { email, password }, context) => {
             
-            //Find a user by the email argument passed in.
-            const user = await User.findOne({ email });
+    //         //Find a user by the email argument passed in.
+    //         const user = await User.findOne({ email });
 
-            //Check if user exists.
-            if (!user) {
-                //TODO: Add logic here.
-            }
+    //         //Check if user exists.
+    //         if (!user) {
+    //             //TODO: Add logic here.
+    //         }
 
-        },
+    //     },
 
-        addUser: async (parent, args, context) => {
+    //     addUser: async (parent, args, context) => {
 
-            //Create a new user with the user info passed in from arguments.
-            const newUser = await User.create(args); 
+    //         //Create a new user with the user info passed in from arguments.
+    //         const newUser = await User.create(args); 
 
-            return {user};
+    //         return {user};
 
-        },
+    //     },
 
-        removeBook: async (parent, args, context) => {
+    //     removeBook: async (parent, args, context) => {
 
-        },
+    //     },
 
-        saveBook: async (parent, args, context) => {
+    //     saveBook: async (parent, args, context) => {
 
-        }
-    }
+    //     }
+    // }
 }
 
 module.exports = resolvers;
