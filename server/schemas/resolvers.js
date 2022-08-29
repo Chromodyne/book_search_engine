@@ -1,5 +1,5 @@
 const { User } = require("../models");
-
+const { AuthenticationError } = require("apollo-server-express");
 //TODO: Not sure if I need this.
 const { signToken } = require("../utils/auth.js");
 
@@ -7,9 +7,15 @@ const { signToken } = require("../utils/auth.js");
 const resolvers = {
     Query: {
         me: async (parent, args, context) => {
-            const findUser = await User.findOne({ _id: context.user.id }).select("-password");
+            if(context.user) {
+
+                const findUser = await User.findOne({ _id: context.user.id }).select("-password");
             
-            return findUser;
+                return findUser;
+
+            }
+            
+            throw new AuthenticationError("User is not logged in.");
         }
     },
 

@@ -10,7 +10,7 @@ const { typeDefs, resolvers } = require("./schemas");
 const db = require('./config/connection');
 
 //This will be removed when swapping to apollo/graphql.
-const routes = require('./routes');
+//const routes = require('./routes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: authMiddleware
+  //context: authMiddleware
 });
 
 app.use(express.urlencoded({ extended: true }));
@@ -44,10 +44,10 @@ const startApollo = async (typeDefs, resolvers) => {
   server.applyMiddleware({ app });
 
   db.once('open', () => {
-    app.listen(PORT, () => {console.log(`🌍 Now listening on localhost:${PORT}`);
-    console.log(`GraphQL available at: http://localhost:${PORT}${server.graphqlPath}`);
-  });
-
+    app.listen(PORT, () => {
+      console.log(`🌍 Now listening on localhost:${PORT}`);
+      console.log(`GraphQL available at: http://localhost:${PORT}${server.graphqlPath}`);
+    })
   });
 
 }
