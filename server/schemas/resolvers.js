@@ -1,10 +1,12 @@
 const { User } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
-//TODO: Not sure if I need this.
+
+//TODO: Remember how to use tokens.
 const { signToken } = require("../utils/auth.js");
 
 //TODO: Build out resolvers logic.
 const resolvers = {
+    //Queries
     Query: {
         me: async (parent, args, context) => {
             if(context.user) {
@@ -20,36 +22,47 @@ const resolvers = {
     },
 
     //TODO: Setup proper args and context for the ones that need it.
-    // Mutation: {
-    //     login: async (parent, { email, password }, context) => {
+    //Mutations
+    Mutation: {
+        login: async (parent, { email, password }, context) => {
             
-    //         //Find a user by the email argument passed in.
-    //         const user = await User.findOne({ email });
+            //Find a user by the email argument passed in.
+            const user = await User.findOne({ email });
 
-    //         //Check if user exists.
-    //         if (!user) {
-    //             //TODO: Add logic here.
-    //         }
+            //Check if user exists.
+            if (!user) {
+                throw new AuthenticationError("Incorrect username.");
+            }
 
-    //     },
+            //Get isCorrectPassword from User schema and check.
+            const checkPW = await user.isCorrectPassword(password);
+            
+            //If password is incorrect, throw error.
+            if (!checkPW)
+                throw new AuthenticationError("Incorrect password.");
+            }
 
-    //     addUser: async (parent, args, context) => {
+            //TODO: Token logic needs to go here. Review how it works.
 
-    //         //Create a new user with the user info passed in from arguments.
-    //         const newUser = await User.create(args); 
+        },
 
-    //         return {user};
+        addUser: async (parent, args, context) => {
 
-    //     },
+            //Create a new user with the user info passed in from arguments.
+            const newUser = await User.create(args); 
 
-    //     removeBook: async (parent, args, context) => {
+            return {user};
 
-    //     },
+        },
 
-    //     saveBook: async (parent, args, context) => {
+        removeBook: async (parent, args, context) => {
 
-    //     }
-    // }
+        },
+
+        saveBook: async (parent, args, context) => {
+
+        }
+    }
 }
 
 module.exports = resolvers;
