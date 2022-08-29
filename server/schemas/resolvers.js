@@ -38,11 +38,14 @@ const resolvers = {
             const checkPW = await user.isCorrectPassword(password);
             
             //If password is incorrect, throw error.
-            if (!checkPW)
+            if (!checkPW) {
                 throw new AuthenticationError("Incorrect password.");
             }
 
-            //TODO: Token logic needs to go here. Review how it works.
+            //Create a token for the user.
+            const token = signToken(user);
+
+            return {token, user};
 
         },
 
@@ -51,7 +54,7 @@ const resolvers = {
             //Create a new user with the user info passed in from arguments.
             const newUser = await User.create(args); 
 
-            return {user};
+            return {newUser};
 
         },
 
