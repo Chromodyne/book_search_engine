@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  //context: authMiddleware
+  context: authMiddleware
 });
 
 app.use(express.urlencoded({ extended: true }));
@@ -38,7 +38,6 @@ app.get('/', (req, res) => {
 
 
 //Logic for starting the apollo server.
-//TODO: Look into the applyMiddleware method. Need to understand how it works for apollo.
 const startApollo = async (typeDefs, resolvers) => {
   await server.start();
   server.applyMiddleware({ app });

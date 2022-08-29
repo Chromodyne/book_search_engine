@@ -53,8 +53,10 @@ const resolvers = {
             //Create a new user with the user info passed in from arguments.
             //TODO: Should I create a token here as well?
             const newUser = await User.create(args); 
+            
+            const token = signToken(user);
 
-            return {newUser};
+            return {token, newUser};
 
         },
 

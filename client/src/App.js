@@ -5,6 +5,7 @@ import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
 
 //Import Apollo stuff for client.
+import { setContext } from '@apollo/client/link/context';
 import {
   ApolloClient,
   InMemoryCache,
@@ -13,14 +14,23 @@ import {
 } from "@apollo/client";
 
 //Create http link per docs.
-// const link = createHttpLink({
-//   uri: "/graphql",
-//   cache: new InMemoryCache()
-// });
-
-const client = new ApolloClient({
+const link = createHttpLink({
   uri: "/graphql",
   cache: new InMemoryCache()
+});
+
+const authorize = setContext((_, {headers}) => {
+  const token = localStorage.getItem("id_token");
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
+const client = new ApolloClient({
+  link: authorize.concat(link)
 })
 
 function App() {
