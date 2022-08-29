@@ -14,6 +14,9 @@ const SignupForm = () => {
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
+  //New apollo stuff for mutations
+  const [newUser, { error }] = useMutation(ADD_USER);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
@@ -29,19 +32,22 @@ const SignupForm = () => {
       event.stopPropagation();
     }
 
+    //TODO: Fix this to use the new apollo/graphql stuff.
     try {
-      const response = await createUser(userFormData);
+      //Note: Used in old API request. Keeping here so I don't try to use it again.
+      // const response = await createUser(userFormData);
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      const { data } = await newUser({
+        variables: { ...userFormData }
+      });
 
-      const { token, user } = await response.json();
-      console.log(user);
-      Auth.login(token);
+      Auth.login(data.newUser.token);
+
+
     } catch (err) {
-      console.error(err);
-      setShowAlert(true);
+
+      console.log(err);
+
     }
 
     setUserFormData({
