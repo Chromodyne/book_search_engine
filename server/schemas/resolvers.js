@@ -21,7 +21,6 @@ const resolvers = {
         }
     },
 
-    //TODO: Setup proper args and context for the ones that need it.
     //Mutations
     Mutation: {
         login: async (parent, { email, password }, context) => {

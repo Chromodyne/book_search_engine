@@ -13,37 +13,41 @@ import {
 } from "@apollo/client";
 
 //Create http link per docs.
-const link = createHttpLink({
-  uri: "/graphql"
-});
+// const link = createHttpLink({
+//   uri: "/graphql",
+//   cache: new InMemoryCache()
+// });
 
-//Apollo client setup.
-//TODO: Need to setup the auth link stuff per docs.
-// const client = new ApolloClient({
+const client = new ApolloClient({
+  uri: "/graphql",
+  cache: new InMemoryCache()
+})
 
-// }
 
 function App() {
   return (
-    <Router>
-      <>
-        <Navbar />
-        <Routes>
-          <Route 
-            path='/' 
-            element={<SearchBooks />} 
-          />
-          <Route 
-            path='/saved' 
-            element={<SavedBooks />} 
-          />
-          <Route 
-            path='*'
-            element={<h1 className='display-2'>Wrong page!</h1>}
-          />
-        </Routes>
-      </>
-    </Router>
+    <ApolloProvider client={client}>
+      <Router>
+        <>
+          <Navbar />
+          <Routes>
+            <Route 
+              path='/' 
+              element={<SearchBooks />} 
+            />
+            <Route 
+              path='/saved' 
+              element={<SavedBooks />} 
+            />
+            <Route 
+              path='*'
+              element={<h1 className='display-2'>Wrong page!</h1>}
+            />
+          </Routes>
+        </>
+      </Router>
+    </ApolloProvider>
+
   );
 }
 
